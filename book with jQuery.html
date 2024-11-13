@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration & Book Transaction</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Student Registration</h1>
+        <form id="form1">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+            <br>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <br>
+            <label for="branch">Branch:</label>
+            <input type="text" id="branch" name="branch" required>       
+            <br>
+            <button type="button" id="btn1" >Register</button>
+        </form>
+        <p id="regMsg"></p>
+        <div id="box1">
+            <h1 >Book Transaction</h1>
+            <button id="view">View Book List</button>
+            <ol id="bookList"></ol>
+            <input type="number" id="bookInput" placeholder="Enter a option" />
+            <p id="selectedbook"></p>
+            <div id="Actions">
+                <button id="purchaseButton">Purchase</button>
+                <button id="returnButton" >Return</button>
+            </div>
+            <div id="box2">
+                <table id="bookTable" border="2">
+                    <thead>
+                        <tr>
+                            <th>Student Name</th>
+                            <th>Email</th>
+                            <th>Branch</th>
+                            <th>Status</th>
+                            <th>Book Name</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody"></tbody>
+                </table>
+            </div>
+            
+
+        </div>
+       
+    </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script>
+        const books = [
+            'The Great Gatsby',
+            'To Kill a Mockingbird',
+            '1984',
+            'The Catcher in the Rye',
+            'Pride and Prejudice',
+            'Moby Dick',
+            'War and Peace',
+            'The Odyssey',
+            'Ulysses',
+            'Hamlet'
+        ];
+        const bookList = document.getElementById('bookList');
+        const bookTable = document.querySelector('#tbody');
+            $(document).ready(function(){
+                $('#box1').hide()
+                $('#box2').hide()
+                $("#btn1").click(function(){
+                let form1 = document.getElementById('form1')
+                let name = $("#name").val()
+                let email = $("#email").val()
+                let branch = $("#branch").val();
+                if (name && email && branch) {
+                $("#regMsg").text("Registration Completed")
+                $('#box1').show()
+            } else {
+                alert('Please fill all fields!');
+            }
+          
+                })
+            
+            $("#view").on('click',function(){
+            for(let book of books)            {
+            let listItem = document.createElement('li');
+            listItem.innerHTML = book
+            bookList.appendChild(listItem);
+            }
+            $('#bookInput').on('input',function(){
+                let index = parseInt($('#bookInput').val())-1
+                if(index >=0 && index<books.length)
+            {
+                $("#selectedbook").text(`Selected book : ${books[index]}`)  
+            }
+            else
+            {
+                $("#selectedbook").text("invaild")
+            }
+            })
+            $("#purchaseButton").on("click",function(){
+                $('#bookInput').val(" ")
+                $("#selectedbook").text(" ")
+                form1.reset();
+            })
+            $("#returnButton").on("click",function(){
+                $('#bookInput').val(" ")
+                $("#selectedbook").text(" ")
+                form1.reset();
+            })
+        })   
+    }) 
+    $('#purchaseButton').on("click",function()
+    {
+        let name = $("#name").val()
+        let email = $("#email").val()
+        let branch = $("#branch").val();
+        let bookindex = parseInt($('#bookInput').val())-1
+            if (!name || !email || !branch) {
+                alert('Please register first!');
+                return;
+            }
+            transaction(name, email, branch, 'Purchased',bookindex);
+            $("#box2").show(2000)  
+
+    });
+    $('#returnButton').on("click",function()
+    {
+        let name = $("#name").val()
+        let email = $("#email").val()
+        let branch = $("#branch").val();
+        let bookindex = parseInt($('#bookInput').val())-1
+            if (!name || !email || !branch) {
+                alert('Please register first!');
+                return;
+            }
+            transaction(name, email, branch, 'Returned',bookindex);
+            $("#box2").show(2000)         
+    });
+        function transaction(name, email, branch, status, bookindex) {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${name}</td>
+                <td>${email}</td>
+                <td>${branch}</td>
+                <td>${status}</td>
+                <td>${books[bookindex]}</td>`;
+            bookTable.appendChild(row);
+        } 
+    </script>
+</body>
+</html>

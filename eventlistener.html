@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>  
+</head>
+<body>
+    <h2>EventListener</h2>
+    <button type="button" id="b1" >Click</button>
+    <p id="p1"></p>
+    <script>
+        let a = document.getElementById("b1")
+        a.addEventListener("mouseover",change1);
+        a.addEventListener("mouseout",change2);
+        function change1()
+        {
+           document.getElementById("b1").style.color = "red"
+        }
+        function change2()
+        {
+           document.getElementById("b1").style.backgroundColor = "green"
+           document.getElementById("b1").style.color =""
+        }
+    </script>   
+</body>
+</html>

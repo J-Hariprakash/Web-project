@@ -1,0 +1,140 @@
+                        <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade Calculation</title>
+    <script>
+        let students = [];
+        let rollno = [];
+        let totalmarks = [];
+        let std_grade = [];
+        let std_avg = [];
+        let grade=""
+        function calculate_grade(mark)
+           {
+            if(mark>=90)                                  
+           {
+               return  "S"
+           }
+           else if(mark>=85 && mark <90)
+           {
+               return  "A+"
+           }
+           else if(mark>=80 && mark <85)
+           {
+               return  "A"
+           }
+           else if(mark>=75 && mark <80)
+           {
+               return  "B+"
+           }
+           else if(mark>=70 && mark <75)
+           {
+               return  "B"
+           }
+           else if(mark>=65 && mark <70)
+           {
+               return  "C+"
+           }
+           else if(mark>=60 && mark <65)
+           {
+               return  "C"
+           }
+           else if(mark>=55 && mark <60)
+           {
+               return  "D+"
+           }
+           else if(mark>=50 && mark <55)
+           {
+               return  "D"
+           }
+           else if(mark>=45 && mark <50)
+           {
+               return  "P"
+           }
+           else{
+             return "F"
+           }  
+           }
+           function calculate_avg(marks)
+           {
+            let sum = 0;
+            for(let i=0;i<marks.length;i++)
+           {
+              sum = sum + parseFloat(marks[i].trim())
+           }
+           let avgs = sum/marks.length
+           let avg = avgs.toFixed(1)
+           return avg
+           }
+        function Result()
+        {  let form = document.getElementById('forms')
+           let name = document.querySelector('#n1').value
+           let roll = document.querySelector('#r1').value
+           let mark = document.querySelector('#m1').value
+           let marks = mark.split(',')
+           students.push(name)
+           rollno.push(roll)
+           totalmarks.push(marks)
+           let avg = calculate_avg(marks)
+           std_avg.push(avg)
+           let std_grades = calculate_grade(avg)
+           std_grade.push(std_grades)
+           let total_avg = calculate_avg(std_avg);      
+           let class_grades = calculate_grade(total_avg)
+           form.reset()
+           let tbody = document.querySelector('.tablebody')
+            let rows = document.createElement('tr')
+               rows.innerHTML = 
+               `<td>${name}</td>
+               <td>${roll}</td>
+               <td>${mark}</td>
+               <td>${avg}</td>
+               <td>${std_grades}</td>`
+               tbody.appendChild(rows)
+            document.getElementById('td1').innerHTML = " class score : " +  total_avg
+            document.getElementById('td2').innerHTML = " class grade : " +  class_grades 
+        }           
+    </script>
+</head>
+<body>
+    <h1>Students grade</h1>
+    <div>
+        <form id="forms">
+            <label>Name :</label>
+            <input type="text" id="n1" placeholder="Student name" required>
+            <br>
+            <label>Roll No  :</label>
+            <input type="text " id="r1" placeholder="Roll number" required>
+            <br>
+            <label>Marks :</label>
+            <input type="text" id="m1" placeholder="mark1,mark2,mark3,..." required>
+            <br>
+            <button type="button" id="b1" onclick="Result()">Submit </button>
+        </form>
+    </div>
+    <br>
+        <table border="2">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Roll No</th>
+                    <th>Students mark</th>
+                    <th>student avg score</th>
+                    <th>student grade</th>
+                </tr>
+            </thead>
+            <tbody class="tablebody">      
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td id="td1" colspan="5">avg score</td>
+                </tr>
+                 <tr>
+                    <td id="td2" colspan="5">avg grade</td>
+                 </tr>     
+            </tfoot>   
+        </table>   
+</body>
+</html>
